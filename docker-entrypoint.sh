@@ -41,4 +41,4 @@ kill -s TERM "${mysql_pid}"
 wait "${mysql_pid}"
 
 
-exit 0
+exit $@
