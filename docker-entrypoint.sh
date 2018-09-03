@@ -41,4 +41,8 @@ kill -s TERM "${mysql_pid}"
 wait "${mysql_pid}"
 
 
-exit $@
+chown -R mysql:mysql "${MYSQL_HOME}"
+chown -R mysql:mysql "/var/lib/mysql"
+
+
+exec $@

@@ -31,6 +31,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 RUN rm -rf /var/lib/mysql \
  && mkdir /var/lib/mysql \
  && chown mysql:mysql /var/lib/mysql \
+ && mkdir "${MYSQL_HOME}/mysql.log.d" \
  && chown mysql:mysql "${MYSQL_HOME}/mysql.log.d" \
  && echo "!includedir ${MYSQL_HOME}/mysql.conf.d" >> /etc/mysql/my.cnf
 
