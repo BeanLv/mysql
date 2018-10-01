@@ -5,11 +5,16 @@ NC='\033[0m'
 
 if [ -d "/var/lib/mysql/mysql" ]; then
     echo -e "${GREEN}MySQL data dir is not empty. Skip the initialization process${NC}"
+    exec $@ 
     exit 0
 fi
 
 
 echo -e "${GREEN}Setup MySQL and run scripts to init db${NC}"
+
+chown -R mysql:mysql "${MYSQL_HOME}"
+chown -R mysql:mysql "/var/lib/mysql"
+
 mysqld --initialize-insecure --user=mysql
 
 
