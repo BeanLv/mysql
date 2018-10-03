@@ -6,12 +6,13 @@
 1. 容器启动时检查 `/var/lib/mysql/mysql` 是否为空，如果不为空表明数据库已经初始化。 直接执行 CMD。
 2. 如果文件夹为空, 按下面步骤执行初始化:
    * 检查 `${MYSQL_USER}` 是否为空，如果没有设置 MYSQL 用户，不允许初始化，因为数据库需要一个连接用户。
-   * 使用 `mysql` 用户创建一个数据库。
-   * 遍历 `${MYSQL_HOME}` 目录下所有前缀为 `mysql.initdb.d` 的文件夹，逐行读取该文件夹下 `.list` 文件指定的该目录下的 `sql\sh` 脚本，并执行它们。由于用的是 `while read` 逐行读取，所以 `.list` 文件最后必须多出一个空行，并且空行后的内容不会再读取。如果没有 `mysql.initdb.d*` 文件夹，则不允许任何脚本。
+   * 使用 `mysql` 在默认的 `/var/lib/mysql` 中安装数据库文件夹。
+   * 遍历 `${MYSQL_HOME}` 目录下所有前缀为 `mysql.initdb.d` 的文件夹，逐行读取文件夹下 `.list` 文件指定的 `sql\sh` 脚本并执行它们。由于用的是 `while read` 逐行读取，所以 `.list` 文件最后必须多出一个空行，并且空行后的内容不会再读取。如果没有 `mysql.initdb.d*` 文件夹，则不运行任何脚本。
    * 设置 `root` 只能本地连接，密码是 `${MYSQL_ROOT_PASSWORD}`，不设置的话默认是空。
-   * 用 `${MYSQL_USER}` 和 `${MYSQL_USER_PASSWORD}` 创建MySQL用户，密码不设置的话默认是空。
+   * 用 `${MYSQL_USER}` 和 `${MYSQL_USER_PASSWORD}` 创建 MySQL 用户，密码不设置的话默认是空。
    * 删除 `test` 数据库。
-3. 使用 `mysql.initdb.d*` 初始化数据库事例:
+
+### 示例:
 ```
     ${MYSQL_HOME}:
       - mysql.initdb.d
@@ -22,10 +23,9 @@
         - data.sql
         - some.sh
 
-     # 第一个 .list 中的文件内容为两行: schema.sql 和空行
-     # sandbox 中的 .list 文件中的内容为三行: data.sql、some.sh 和 空行
+     # 第一个 .list 中的文件内容为两行: schema.sql 和 空行；sandbox 中的 .list 文件中的内容为三行: data.sql、some.sh 和 空行。
 
-     初始化程序将依次执行: schema.sql、data.sql 和 some.sh 三个脚本
+   初始化程序将依次执行: schema.sql、data.sql 和 some.sh 三个脚本
 ```
 
 ## MySQL 配置
