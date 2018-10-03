@@ -14,16 +14,17 @@
 
 ### 示例:
 ```
-    ${MYSQL_HOME}:
-      - mysql.initdb.d
-        - .list
-        - schema.sql
-      - mysql.initdb.d.sandbox
-        - .list
-        - data.sql
-        - some.sh
+   ${MYSQL_HOME}:
+     - mysql.initdb.d
+       - .list
+       - schema.sql
+     - mysql.initdb.d.sandbox
+       - .list
+       - data.sql
+       - some.sh
 
-     # 第一个 .list 中的文件内容为两行: schema.sql 和 空行；sandbox 中的 .list 文件中的内容为三行: data.sql、some.sh 和 空行。
+   # 第一个 .list 中的文件内容为两行: schema.sql 和 空行；
+   # sandbox 中的 .list 文件中的内容为三行: data.sql、some.sh 和 空行。
 
    初始化程序将依次执行: schema.sql、data.sql 和 some.sh 三个脚本
 ```
