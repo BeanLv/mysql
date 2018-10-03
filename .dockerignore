@@ -1,4 +1,8 @@
+.gitignore
+
 Dockerfile
 docker-compose.yml
 mysql.initdb.d.test
 README.md
+
+mysql.community.5.7

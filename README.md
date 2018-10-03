@@ -1,6 +1,6 @@
 # MYSQL 数据库镜像
 
-基于 `MySQL 5.7` 构建镜像，在 `docker-entrypoint.sh` 中初始化数据库
+基于 `MySQL Community 5.7` 构建镜像，在 `docker-entrypoint.sh` 中初始化数据库
 
 ## 初始化
 1. 容器启动时检查 `/var/lib/mysql/mysql` 是否为空，如果不为空表明数据库已经初始化. 直接执行CMD.
