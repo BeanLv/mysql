@@ -5,16 +5,21 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 if [ -d "/var/lib/mysql/mysql" ]; then
-    echo -e "${GREEN}MySQL数据文件夹不为空，跳过初始化, 执行 CMD${NC}"
+    echo -e "${GREEN}MySQL 数据文件夹不为空，跳过初始化, 执行 CMD${NC}"
     exec $@
     exit 0
 fi
 
 
-echo -e "${GREEN}初始化MySQL${NC}"
+echo -e "${GREEN}初始化 MySQL${NC}"
+
+MYSQL_HOME="${MYSQL_HOME}"
+MYSQL_USER="${MYSQL_USER}"
+MYSQL_USER_PASSWORD="${MYSQL_USER_PASSWORD}"
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
 
 if [ -z "${MYSQL_USER}" ]; then
-    echo -e "${RED}必须为MySQL设置一个连接用户，因为root只能用于本地连接${NC}"
+    echo -e "${RED}必须为 MySQL 设置一个连接用户，root 只能用于本地连接${NC}"
     exit 1
 fi
 
@@ -24,7 +29,7 @@ chown -R mysql:mysql "/var/lib/mysql"
 mysqld --initialize-insecure --user=mysql
 
 
-printf ' ---> 启动MySQL'
+printf '1. 启动 MySQL'
 mysqld --skip-networking --user mysql &
 mysql_pid="$!"
 
@@ -35,18 +40,22 @@ done
 echo
 
 
-echo ' ---> 运行初始化脚本:'
-while read script; do
-    if [ -n "$script" ] && [ "${script:0:1}" != '#' ]; then
-        echo "    * ${script}"
-        case ${script} in
-            *.sh)   .       "${MYSQL_HOME}/mysql.initdb.d/${script}" ;;
-            *.sql)  mysql < "${MYSQL_HOME}/mysql.initdb.d/${script}" ;;
-        esac
-    fi
-done < "${MYSQL_HOME}/mysql.initdb.d/mysql.initdb.list"
+echo '2. 运行脚本:'
+ls "${MYSQL_HOME}" | grep "^mysql\.initdb\.d" | sort | while read dir;
+do
+    while read script; do
+        if [ -n "${script}" ] && [ "${script:0:1}" != '#' ]; then
+            echo "   * ${dir}/${script}"
+            case ${script} in
+                *.sh)   .       "${MYSQL_HOME}/${dir}/${script}" ;;
+                *.sql)  mysql < "${MYSQL_HOME}/${dir}/${script}" ;;
+    esac
+        fi
+    done < "${MYSQL_HOME}/${dir}/.list"
+done
 
-echo ' ---> 设置 MySQL root 和 user, 删除 test 数据库'
+
+echo '3. 设置 MySQL root 和 user, 删除 test 数据库'
 mysql <<-EOSQL
     USE \`mysql\`;
     DELETE FROM user WHERE host != 'localhost' OR user NOT IN ('mysql.session', 'mysql.sys', 'root');
