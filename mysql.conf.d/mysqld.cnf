@@ -1,0 +1,5 @@
+[mysqld]
+bind-address                 = *
+character-set-server         = utf8mb4
+collation-server             = utf8mb4_general_ci
+explicit_defaults_for_timestamp

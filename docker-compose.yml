@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  mysql-test:
+    container_name: mysql.test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 5824600/mysql:5.7
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql.initdb.d.test:/usr/local/mysql/mysql.initdb.d
+    environment:
+      - MYSQL_USER=${MYSQL_USER:-test}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}

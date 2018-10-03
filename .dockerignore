@@ -1,2 +1,4 @@
 Dockerfile
 docker-compose.yml
+mysql.initdb.d.test
+README.md
