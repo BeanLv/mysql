@@ -50,4 +50,4 @@
    * `${MYSQL_USER_PASSWORD}` 默认为空
    * `${MYSQL_ROOT_PASSWORD}` 默认为空
    * `mysql.conf.d` 中的基本配置
-   * 3307 端口映射到数据库 3306，要同时启动多个容器需要修改端口
+   * 3307 端口映射到数据库 3306，要同时启动多个容器需要修改端口和 `container_name`

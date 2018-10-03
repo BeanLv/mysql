@@ -2,7 +2,7 @@ version: "3"
 
 services:
   mysql-test:
-    container_name: mysql.test
+    container_name: mysql57
     build:
       context: .
       dockerfile: Dockerfile

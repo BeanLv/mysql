@@ -4,12 +4,11 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-if [ -d "/var/lib/mysql/mysql" ]; then
-    echo -e "${GREEN}MySQL 数据文件夹不为空，跳过初始化, 执行 CMD${NC}"
+if [ -d "/var/lib/mysql" ] && [ -n "$(ls /var/lib/mysql)" ] ; then
+    echo -e "${GREEN}'/var/lib/mysql/mysql' 不为空，跳过初始化, 直接运行 $@${NC}"
     exec $@
     exit 0
 fi
-
 
 echo -e "${GREEN}初始化 MySQL${NC}"
 
@@ -67,7 +66,7 @@ mysql <<-EOSQL
     FLUSH PRIVILEGES;
 EOSQL
 
-echo -e "${GREEN}初始化完成! 关闭 MySQL, 执行 CMD${NC}"
+echo -e "${GREEN}初始化完成! 关闭 MySQL${NC}"
 kill -s TERM "${mysql_pid}"
 wait "${mysql_pid}"
 
@@ -75,5 +74,5 @@ wait "${mysql_pid}"
 chown -R mysql:mysql "${MYSQL_HOME}"
 chown -R mysql:mysql "/var/lib/mysql"
 
-
+echo -e "${GREEN}MySQL 关闭! 运行 $@${NC}"
 exec $@
