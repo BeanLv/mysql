@@ -1,15 +1,22 @@
 version: "3"
 
 services:
-  mysql-test:
+  mysql57:
     container_name: mysql57
     build:
       context: .
       dockerfile: Dockerfile
     image: 5824600/mysql:5.7
+    networks:
+      - mysql57.network
     ports:
-      - "3307:3306"
+      - "3306:3306"
+    volumes:
+     - ${HOME}/mysql57:/var/lib/mysql
     environment:
-      - MYSQL_USER=${MYSQL_USER:-test}
+      - MYSQL_USER=${MYSQL_USER:-mysql}
       - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+networks:
+  mysql57.network:
