@@ -31,6 +31,7 @@
 
 ## MySQL 配置
 1. 镜像默认使用 `mysql.conf.d` 中的文件作为配置。
+2. 如果需要添加配置文件，请将配置文件夹映射到容器的 `/usr/local/mysql/mysql.conf.my.d` 中
 
 ## 如何使用该镜像
 

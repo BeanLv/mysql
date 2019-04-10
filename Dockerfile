@@ -7,9 +7,11 @@ COPY . $MYSQL_HOME/
 
 RUN rm -rf /var/lib/mysql \
  && mkdir /var/lib/mysql \
+ && mkdir -p "${MYSQL_HOME}/mysql.conf.my.d" \
  && chown -R mysql:mysql /var/lib/mysql \
  && chown -R mysql:mysql "${MYSQL_HOME}" \
- && echo "!includedir ${MYSQL_HOME}/mysql.conf.d" >> /etc/mysql/my.cnf
+ && echo "!includedir ${MYSQL_HOME}/mysql.conf.d" >> /etc/mysql/my.cnf \
+ && echo "!includedir ${MYSQL_HOME}/mysql.conf.my.d" >> /etc/mysql/my.cnf
 
 RUN mv docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh \
  && chmod +x /usr/local/bin/docker-entrypoint.sh
