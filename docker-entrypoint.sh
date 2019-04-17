@@ -17,11 +17,6 @@ MYSQL_USER="${MYSQL_USER}"
 MYSQL_USER_PASSWORD="${MYSQL_USER_PASSWORD}"
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
 
-if [ -z "${MYSQL_USER}" ]; then
-    echo -e "${RED}必须为 MySQL 设置一个连接用户，root 只能用于本地连接${NC}"
-    exit 1
-fi
-
 chown -R mysql:mysql "${MYSQL_HOME}"
 chown -R mysql:mysql "/var/lib/mysql"
 
